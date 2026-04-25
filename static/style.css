@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary: #0F4C81; /* KRM Blue */
+    --secondary: #FF6B6B; /* Accent Coral */
+    --bg-color: #F4F7FE;
+    --card-bg: #FFFFFF;
+    --text-main: #2B3674;
+    --text-muted: #A3AED0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+}
+
+/* Glassmorphism Navigation Bar */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(15, 76, 129, 0.95);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 15px 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.admin-nav { background: rgba(5, 142, 85, 0.95); }
+
+.nav h2 { margin: 0; font-weight: 700; letter-spacing: 1px;}
+.nav a { 
+    color: white; 
+    text-decoration: none; 
+    margin-left: 20px; 
+    font-weight: 600; 
+    transition: 0.3s;
+    background: rgba(255,255,255,0.1);
+    padding: 8px 15px;
+    border-radius: 20px;
+}
+.nav a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px);}
+
+/* Containers and Typography */
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.text-center { text-align: center; }
+.hero-title { font-size: 2.5em; color: var(--primary); margin-bottom: 5px;}
+.hero-subtitle { color: var(--text-muted); font-size: 1.1em; margin-bottom: 30px;}
+
+/* Grid & Cards */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(225, 233, 248, 0.8);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(200, 213, 238, 0.8);
+}
+
+.card h4 { margin: 0 0 5px 0; font-size: 1.3em; display: flex; justify-content: space-between;}
+.card-desc { color: var(--text-muted); font-size: 0.9em; margin-bottom: 15px; min-height: 40px;}
+.card-price { font-size: 1.4em; font-weight: 700; color: var(--primary); margin-bottom: 15px;}
+
+/* Buttons */
+button {
+    background: linear-gradient(135deg, #0F4C81 0%, #1a64a3 100%);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    transition: 0.3s;
+    width: 100%;
+    margin-top: auto;
+}
+
+button:hover {
+    box-shadow: 0 5px 15px rgba(15, 76, 129, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-checkout { background: linear-gradient(135deg, #FF6B6B 0%, #ff4757 100%); font-size: 1.1em; padding: 15px;}
+.btn-checkout:hover { box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4); }
+.btn-prepare { background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); }
+.btn-ready { background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); }
+.btn-complete { background: #6c757d; }
+
+/* Status Badges */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.Pending { background: #fff3cd; color: #856404; }
+.Preparing { background: #cce5ff; color: #004085; }
+.Ready { background: #d4edda; color: #155724; }
+.Completed { background: #e2e3e5; color: #383d41; }
+
+/* Cart & Login Specifics */
+.login-box { max-width: 400px; margin: 100px auto; padding: 40px; }
+.login-box input {
+    width: 90%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 2px solid #e1e9f8;
+    border-radius: 10px;
+    font-family: 'Poppins';
+    background: #f8faff;
+}
+.login-box input:focus { outline: none; border-color: var(--primary); }
+
+.cart-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #e1e9f8; font-weight: 600;}
+.success-msg { background: #d4edda; color: #155724; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; font-weight: bold;}
+.error-msg { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px;}

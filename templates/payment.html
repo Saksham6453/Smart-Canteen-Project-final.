@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Secure Payment | KRM Canteen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="nav">
+        <h2>🔒 Secure Checkout</h2>
+        <a href="{{ url_for('cart') }}">Back to Cart</a>
+    </div>
+    
+    <div class="container text-center">
+        <div class="login-box" style="max-width: 500px;">
+            <h2 style="color: var(--primary);">Total Amount: ₹{{ total }}</h2>
+            <p class="text-muted">Select your preferred payment method:</p>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
+                <div id="tab-upi" class="badge Ready" onclick="switchMethod('upi')" style="padding: 15px; font-size: 1.1em; cursor: pointer; border: 2px solid #28a745;">UPI / QR</div>
+                <div id="tab-card" class="badge Completed" onclick="switchMethod('card')" style="padding: 15px; font-size: 1.1em; cursor: pointer; border: 2px solid transparent;">Card</div>
+                <div id="tab-netbanking" class="badge Completed" onclick="switchMethod('netbanking')" style="padding: 15px; font-size: 1.1em; cursor: pointer; border: 2px solid transparent;">Net Banking</div>
+            </div>
+
+            <div id="sec-upi" style="background: #f8faff; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px dashed var(--primary);">
+                <p style="margin-top:0; font-weight:bold;">📲 Scan with Paytm, PhonePe, or GPay</p>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=KRMangalamCanteenPayment" alt="QR Code">
+            </div>
+
+            <div id="sec-card" style="display: none; background: #f8faff; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;">
+                <p style="margin-top: 0; font-weight:bold;">💳 Enter Card Details</p>
+                <input type="text" placeholder="Card Number (e.g. 4111 1111 ...)" style="width: 90%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc; font-family: 'Poppins', sans-serif;">
+                <div style="display: flex; gap: 10px; width: 95%;">
+                    <input type="text" placeholder="MM/YY" style="width: 50%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-family: 'Poppins', sans-serif;">
+                    <input type="password" placeholder="CVV" style="width: 50%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-family: 'Poppins', sans-serif;">
+                </div>
+            </div>
+
+            <div id="sec-netbanking" style="display: none; background: #f8faff; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;">
+                <p style="margin-top: 0; font-weight:bold;">🏦 Select Your Bank</p>
+                <select style="width: 95%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-family: 'Poppins', sans-serif;">
+                    <option>State Bank of India</option>
+                    <option>HDFC Bank</option>
+                    <option>ICICI Bank</option>
+                    <option>Axis Bank</option>
+                    <option>Punjab National Bank</option>
+                </select>
+            </div>
+
+            <form action="{{ url_for('process_payment') }}" method="POST">
+                <button type="submit" class="btn-checkout">Confirm Payment of ₹{{ total }}</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function switchMethod(method) {
+            // 1. Reset all tabs to gray
+            document.getElementById('tab-upi').className = 'badge Completed';
+            document.getElementById('tab-upi').style.border = '2px solid transparent';
+            document.getElementById('tab-card').className = 'badge Completed';
+            document.getElementById('tab-card').style.border = '2px solid transparent';
+            document.getElementById('tab-netbanking').className = 'badge Completed';
+            document.getElementById('tab-netbanking').style.border = '2px solid transparent';
+
+            // 2. Hide all sections
+            document.getElementById('sec-upi').style.display = 'none';
+            document.getElementById('sec-card').style.display = 'none';
+            document.getElementById('sec-netbanking').style.display = 'none';
+
+            // 3. Highlight the selected tab (Green)
+            document.getElementById('tab-' + method).className = 'badge Ready';
+            document.getElementById('tab-' + method).style.border = '2px solid #28a745';
+            
+            // 4. Show the selected section
+            document.getElementById('sec-' + method).style.display = 'block';
+        }
+    </script>
+</body>
+</html>

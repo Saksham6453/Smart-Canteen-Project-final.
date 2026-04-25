@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta http-equiv="refresh" content="10">
+</head>
+<body>
+    <div class="nav admin-nav">
+        <h2>👨‍🍳 Staff Dashboard - Live Orders</h2>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    
+    <div class="container">
+        <h2 style="color: var(--primary);">Incoming Orders</h2>
+        <div class="grid">
+            {% for order in orders %}
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h4 style="margin:0; color:var(--primary);">Order #{{ order['id'] }}</h4>
+                    <span class="badge {{ order['status'] }}">{{ order['status'] }}</span>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <p style="color: #666; font-weight: bold; margin: 0;">Student: {{ order['username'] }}</p>
+                    <span class="badge" style="background: #d4edda; color: #155724; border: 1px solid #c3e6cb;">✅ Payment Confirmed</span>
+                </div>
+
+                <div style="background: #f8faff; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                    <ul style="margin:0; padding-left:20px; color:var(--text-main);">
+                        {% for item in order['items'] %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <hr style="border:0; border-top: 1px solid #eee; margin-bottom: 15px;">
+                
+                {% if order['status'] == 'Pending' %}
+                    <a href="{{ url_for('update_order', order_id=order['id'], status='Preparing') }}"><button class="btn-prepare">Accept & Start Cooking</button></a>
+                {% elif order['status'] == 'Preparing' %}
+                    <a href="{{ url_for('update_order', order_id=order['id'], status='Ready') }}"><button class="btn-ready">Food is Ready for Pickup</button></a>
+                {% elif order['status'] == 'Ready' %}
+                    <a href="{{ url_for('update_order', order_id=order['id'], status='Completed') }}"><button class="btn-complete">Mark as Collected</button></a>
+                {% else %}
+                    <p style="text-align: center; color: var(--text-muted); font-weight:bold; margin:0;">Order Completed</p>
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="card" style="text-align: center; grid-column: 1 / -1; padding: 50px;">
+                <h3 style="color: var(--text-muted);">No active orders right now.</h3>
+                <p>Waiting for students to place an order...</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <hr style="margin: 40px 0; border: 1px solid #e1e9f8;">
+        <h2 style="color: var(--primary);">📦 Menu Stock Management</h2>
+        <div class="grid">
+            {% for item in menu_items %}
+            <div class="card" style="text-align: center;">
+                <h4 style="justify-content: center; font-size: 1.5em; margin-bottom: 10px;">{{ item['emoji'] }}</h4>
+                <h4 style="justify-content: center;">{{ item['name'] }}</h4>
+                
+                <p style="margin: 10px 0;">
+                    {% if item['is_available'] %}
+                        <span class="badge Ready">In Stock</span>
+                    {% else %}
+                        <span class="badge Pending" style="background: #f8d7da; color: #721c24;">Out of Stock</span>
+                    {% endif %}
+                </p>
+
+                <a href="{{ url_for('toggle_stock', item_id=item['id']) }}" style="margin-top: auto;">
+                    {% if item['is_available'] %}
+                        <button class="btn-checkout" style="padding: 10px; font-size: 0.9em;">Mark Out of Stock</button>
+                    {% else %}
+                        <button class="btn-ready" style="padding: 10px; font-size: 0.9em;">Mark as Available</button>
+                    {% endif %}
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</body>
+</html>
